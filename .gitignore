@@ -1,0 +1,8 @@
+# dirs
+.ipynb_checkpoints/*
+videos/*
+
+
+# files
+med.npy
+tmp.ipynb
