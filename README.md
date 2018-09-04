@@ -11,19 +11,19 @@
 
 <div align="center">
    <img src="imgs/clipcanvas_orig.png" width="45%" alt="水印图">
-   <img src="imgs/clipcanvas_res.png" width="45%" alt="处理结果">
+   <img src="imgs/clipcanvas_res.png" width="45%" alt="处理结果"><br>
    <caption><center> <u><b> 图 1 </b></u>: <b> ClipCanvas </b><br> </center></caption>
    <img src="imgs/pond5_orig.png" width="45%" alt="水印图">
-   <img src="imgs/pond5_res.png" width="45%" alt="处理结果">
+   <img src="imgs/pond5_res.png" width="45%" alt="处理结果"><br>
    <caption><center> <u><b> 图 2 </b></u>: <b> Pond5 </b><br> </center></caption>
    <img src="imgs/quanjing_orig.png" width="45%" alt="水印图">
-   <img src="imgs/quanjing_res.png" width="45%" alt="处理结果">
+   <img src="imgs/quanjing_res.png" width="45%" alt="处理结果"><br>
    <caption><center> <u><b> 图 3 </b></u>: <b> Copyright(quanjing) </b><br> </center></caption>
    <img src="imgs/shutterstock_orig.png" width="45%" alt="水印图">
-   <img src="imgs/shutterstock_res.png" width="45%" alt="处理结果">
+   <img src="imgs/shutterstock_res.png" width="45%" alt="处理结果"><br>
    <caption><center> <u><b> 图 4 </b></u>: <b> ShutterStock </b><br> </center></caption>
    <img src="imgs/storyblocks_orig.png" width="45%" alt="水印图">
-   <img src="imgs/storyblocks_res.png" width="45%" alt="处理结果">
+   <img src="imgs/storyblocks_res.png" width="45%" alt="处理结果"><br>
    <caption><center> <u><b> 图 5 </b></u>: <b> StoryBlocks </b><br> </center></caption>
 </div>
 
@@ -32,11 +32,15 @@
 ### 原理简介
 我们知道添加水印方法是
 
+<div align="center">
 <a href="http://www.codecogs.com/eqnedit.php?latex=J&space;=&space;\alpha&space;*&space;W&space;&plus;&space;(1&space;-&space;\alpha)&space;*&space;I" target="_blank"><img src="http://latex.codecogs.com/gif.latex?J&space;=&space;\alpha&space;*&space;W&space;&plus;&space;(1&space;-&space;\alpha)&space;*&space;I" title="J = \alpha * W + (1 - \alpha) * I" /></a>
+</div>
 
 其中*I*是原图、*W*是logo图，*J*分别是添加logo之后的水印图，*α*是原图的透明度，*α=0*时完全看不到水印，*α=1*时，水印将完全覆盖原图，在没有水印的区域*α=0*，因此，求解原图的公式为
 
+<div align="center">
 <a href="http://www.codecogs.com/eqnedit.php?latex=I&space;=&space;\frac{J&space;-&space;\alpha&space;*&space;W}{1&space;-&space;\alpha}" target="_blank"><img src="http://latex.codecogs.com/gif.latex?I&space;=&space;\frac{J&space;-&space;\alpha&space;*&space;W}{1&space;-&space;\alpha}" title="I = \frac{J - \alpha * W}{1 - \alpha}" /></a>
+</div>
 
 若已知*W*和*α*，就能求*I*。
 
@@ -47,23 +51,23 @@
 <div align="center">
    <img src="imgs/clipcanvas_W.png" width="30%" alt="W">
    <img src="imgs/clipcanvas_alpha.png" width="30%" alt="alpha">
-   <img src="imgs/clipcanvas_subs.png" width="30%" alt="消减图">
+   <img src="imgs/clipcanvas_subs.png" width="30%" alt="消减图"><br>
    <caption><center> <u><b> 图 6 </b></u>: <b> ClipCanvas的W,alpha和消减图 </b><br> </center></caption>
    <img src="imgs/pond5_W.png" width="30%" alt="W">
    <img src="imgs/pond5_alpha.png" width="30%" alt="alpha">
-   <img src="imgs/pond5_subs.png" width="30%" alt="消减图">
+   <img src="imgs/pond5_subs.png" width="30%" alt="消减图"><br>
    <caption><center> <u><b> 图 7 </b></u>: <b> Pond5的W,alpha和消减图 </b><br> </center></caption>
    <img src="imgs/quanjing_W.png" width="30%" alt="W">
    <img src="imgs/quanjing_alpha.png" width="30%" alt="alpha">
-   <img src="imgs/quanjing_subs.png" width="30%" alt="消减图">
+   <img src="imgs/quanjing_subs.png" width="30%" alt="消减图"><br>
    <caption><center> <u><b> 图 8 </b></u>: <b> Copyright(quanjing)的W,alpha和消减图 </b><br> </center></caption>
    <img src="imgs/shutterstock_W.png" width="30%" alt="W">
    <img src="imgs/shutterstock_alpha.png" width="30%" alt="alpha">
-   <img src="imgs/shutterstock_subs.png" width="30%" alt="消减图">
+   <img src="imgs/shutterstock_subs.png" width="30%" alt="消减图"><br>
    <caption><center> <u><b> 图 9 </b></u>: <b> ShutterStock的W,alpha和消减图 </b><br> </center></caption>
    <img src="imgs/storyblocks_W.png" width="30%" alt="W">
    <img src="imgs/storyblocks_alpha.png" width="30%" alt="alpha">
-   <img src="imgs/storyblocks_subs.png" width="30%" alt="消减图">
+   <img src="imgs/storyblocks_subs.png" width="30%" alt="消减图"><br>
    <caption><center> <u><b> 图 10 </b></u>: <b> StoryBlocks的W,alpha和消减图 </b><br> </center></caption>
 </div>
 
@@ -79,18 +83,18 @@
 从上一步处理的结果来看，logo边缘处理效果不太好，跟椒盐噪声很相似，如图11，这通常是由于制作logo时的抗锯齿效果（见下文），使得logo的边缘虚化导致。为了处理这些区域，考虑使用中值滤波修复这些区域，如果直接对整个水印区域进行中值滤波，虽然可以将水印去除干净，但信息损失量很大，使原本分辨率不高的视频变得更加模糊，如图12；另一方面，如果能够定位这些区域，仅替换这些坏的区域，则能得到一个折中的效果。
 
 <div align="center">
-<img src="imgs/shutterstock_median_subs.png" width="60%">
+<img src="imgs/shutterstock_median_subs.png" width="60%"><br>
 <caption><center> <u><b> 图 11 </b></u>: <b> 消减图细节 </b><br> </center></caption>
-<img src="imgs/shutterstock_median_blur.png" width="60%">
+<img src="imgs/shutterstock_median_blur.png" width="60%"><br>
 <caption><center> <u><b> 图 12 </b></u>: <b> 中值滤波后的消减图细节 </b><br> </center></caption>
 </div>
 
 定位这些区域的简单办法是将消减图和其中值滤波图像相减，取绝对值，得到**差值图**，目标区域则是这些差值较大的像素，为了减少误差，可以用多个差值图求中值或均值，取一个阈值，将较小的噪声置零，得到最终差值图如图13，利用该差值图替换消减图中的像素点，获得接近原图的处理结果，如图14，如此形成了一个不甚完美的简单解决方案。
 
 <div align="center">
-<img src="imgs/shutterstock_difference.png" width="60%">
+<img src="imgs/shutterstock_difference.png" width="60%"><br>
 <caption><center> <u><b> 图 13 </b></u>: <b> 多张差值图的中值图像 </b><br> </center></caption>
-<img src="imgs/shutterstock_median_res.png" width="60%">
+<img src="imgs/shutterstock_median_res.png" width="60%"><br>
 <caption><center> <u><b> 图 14 </b></u>: <b> 对指定区域模糊后的图像 </b><br> </center></caption>
 </div>
 
@@ -102,9 +106,9 @@
 举个例子，假设你要制作一个logo水印图，内容是“**Dove**”，外面包裹一个椭圆，打开windows画图板，制作该图如图15，理想情况下会以为整个图像中除了黑色像素就是白色像素，其实不然，将图像放大三倍如图16，发现“**Dove**”附近有许多其他颜色的像素，而椭圆的边缘是明显的锯齿状，反过来从原图中也可以看出来，“**Dove**”的字母很圆润，这种对于边界的处理叫**抗锯齿**，许多图片编辑工具都会默认抗锯齿处理，比如在画图板中的**铅笔**工具没有抗锯齿，但**刷子**工具会做抗锯齿处理，有空可以试一下Photoshop。
 
 <div align="center">
-<img src="imgs/dove.bmp" width="20%">
+<img src="imgs/dove.bmp" width="20%"><br>
 <caption><center> <u><b> 图 15 </b></u>: <b> Dove水印图 </b><br> </center></caption>
-<img src="imgs/dove300x.bmp" width="60%">
+<img src="imgs/dove300x.bmp" width="60%"><br>
 <caption><center> <u><b> 图 16 </b></u>: <b> 放大3倍的Dove水印图 </b><br> </center></caption>
 </div>
 
@@ -114,7 +118,7 @@
 举个例子，打开windows画图板，填充背景为纯黑，画一个无需抗锯齿的图像，选择矩形，填充选择纯色，颜色1（前景色）取黑色RGB=(0,0,0)，颜色2（背景色）取接近白色的灰色RGB=(230,230,230)，随手画一个矩形，如图17所示，分别另存为bmp、jpg图像，然后重新打开bmp图像另存为png图像(否则是在jpg图像的基础上另存为png)，用软件查看图片几乎是一模一样的，但是bmp图像的大小是jpg的几十倍，bmp是未经压缩的原图，逐个像素保存，体积较大，而jpg和png都使用了图像压缩算法。
 
 <div align="center">
-<img src="imgs/image_format.bmp" width="20%">
+<img src="imgs/image_format.bmp" width="20%"><br>
 <caption><center> <u><b> 图 17 </b></u>: <b> 矩形水印图 </b><br> </center></caption>
 </div>
 
