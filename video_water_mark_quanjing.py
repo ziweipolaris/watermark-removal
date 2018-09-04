@@ -133,6 +133,8 @@ def process_video(video, alpha, W, bg, out_video=None):
 
 		if out_video is None and index not in select:continue
 
+		org_frame = frame.copy()
+
 		frame = frame.astype(np.float)
 		J = frame
 		I = (J - aW) * a1
@@ -140,7 +142,7 @@ def process_video(video, alpha, W, bg, out_video=None):
 		I[I>255] = 255
 		frame = I
 
-		org_frame = frame.copy().astype(np.uint8)
+		sub_frame = frame.copy().astype(np.uint8)
 
 		fI = I.copy()
 		fI = cv.medianBlur(fI.astype(np.uint8), 5)
@@ -153,8 +155,12 @@ def process_video(video, alpha, W, bg, out_video=None):
 		accum_time += time.time() - start
 		print("frame:", index,"fps:", index/accum_time)
 
-		# cv.imshow("frame", np.vstack([org_frame,frame]))
-		# cv.waitKey(0)
+		# cv.imwrite("imgs/quanjing_orig.png",org_frame)
+		# cv.imwrite("imgs/quanjing_subs.png",sub_frame)
+		# cv.imwrite("imgs/quanjing_res.png",frame)
+
+		cv.imshow("frame", np.vstack([org_frame,frame]))
+		cv.waitKey(0)
 		if out_video:vwriter.write(frame)
 		
 	cap.release()
@@ -164,9 +170,13 @@ def main():
 	alpha, W = get_alpha_W_black()
 	bg = blur_mask(alpha, W)
 
-	video = "videos/quanjing.mp4"
-	# process_video(video, alpha, W, bg)
+	# cv.imwrite("imgs/quanjing_alpha.png", (alpha*255).astype(np.uint8))
+	# cv.imwrite("imgs/quanjing_W.png", (W).astype(np.uint8))
 
+	video = "videos/quanjing.mp4"
+	process_video(video, alpha, W, bg)
+
+	return
 	dirname = "/database/水印视频/quanjing/"
 	for root, dirs, names in os.walk(dirname):
 		if dirs==[]:

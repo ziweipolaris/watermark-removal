@@ -136,7 +136,7 @@ def blur_mask(alpha, W):
 	pos = alpha.max(axis=-1).nonzero()
 	box = [pos[0].min(), pos[1].min(), pos[0].max(), pos[1].max()]
 	difs = []
-	if True:
+	if False:
 		index = 0
 		while True:
 			result, frame = cap.read()
@@ -186,12 +186,13 @@ def blur_mask(alpha, W):
 	print(med.shape)
 	med = np.repeat(med, 3, axis=-1).reshape(*(med.shape),3)
 
+	cv.imwrite("imgs/shutterstock_difference.png",med)
 	# cv.imshow("dif", med)
 
 	bg = np.zeros(W.shape)
 	bg[box[0]:box[2],box[1]:box[3],:] = med
 
-	bg,_ = move_box(bg,bg,[0,-2])
+	# bg,_ = move_box(bg,bg,[0,-2])
 	# cv.imshow("bg", bg.astype(np.uint8)+(alpha*100).astype(np.uint8))
 	# cv.waitKey(0)
 	return bg
@@ -222,9 +223,10 @@ def process_video(video, alpha, W, bg, out_video=None):
 		index += 1
 		if index==1:
 			offset = find_offset(W, frame)
-			# print(offset)
+			print(offset)
 			# offset = [-4,-2]
 			alpha, W = move_box(alpha, W, offset)
+			bg, _ = move_box(bg, bg, offset)
 
 			pos = alpha.nonzero()
 			box = [pos[0].min(), pos[1].min(), pos[0].max(), pos[1].max()]
@@ -236,6 +238,7 @@ def process_video(video, alpha, W, bg, out_video=None):
 
 		if out_video is None and index not in select:continue
 
+		org_frame = frame.copy()
 		frame = frame.astype(np.float)
 		J = frame[ROI]
 		I = (J - aW) * a1
@@ -243,8 +246,9 @@ def process_video(video, alpha, W, bg, out_video=None):
 		I[I>255] = 255
 		frame[ROI] = I
 
-		org_frame = frame.copy().astype(np.uint8)
+		sub_frame = frame.copy().astype(np.uint8)
 
+		org_fI = I.copy()
 		fI = I.copy()
 		fI = cv.medianBlur(fI.astype(np.uint8), 5)
 		I[med!=0] = fI[med!=0]
@@ -256,8 +260,16 @@ def process_video(video, alpha, W, bg, out_video=None):
 		accum_time += time.time() - start
 		print("frame:", index,"fps:", index/accum_time)
 
-		# cv.imshow("frame", np.vstack([org_frame,frame]))
-		# cv.waitKey(0)
+		# cv.imwrite("imgs/shutterstock_median_blur.png",fI)
+		# cv.imwrite("imgs/shutterstock_median_subs.png",org_fI.astype(np.uint8))
+		# cv.imwrite("imgs/shutterstock_median_res.png",I.astype(np.uint8))
+
+		# cv.imwrite("imgs/shutterstock_orig.png",org_frame)
+		# cv.imwrite("imgs/shutterstock_subs.png",sub_frame)
+		# cv.imwrite("imgs/shutterstock_res.png",frame)
+
+		cv.imshow("frame", np.vstack([org_frame,frame]))
+		cv.waitKey(0)
 		if out_video:vwriter.write(frame)
 		
 	cap.release()
@@ -269,12 +281,12 @@ def main():
 	alpha, W = merge_W(alpha1,W1,alpha2,W2)
 	bg = blur_mask(alpha, W)
 
-	# video = "videos/stock-white.mp4"
-	# video = "/database/水印视频/shutterstock/火箭导弹/stock-footage-cape-canaveral-florida-march-crowds-of-spectators-on-the-beach-watch-a-united-launch.mp4"
-	# video = "/database/水印视频/shutterstock/多旋翼无人机/stock-footage-slow-motion-uav-or-drone-flying-on-sky-an-unmanned-aerial-vehicle-or-uav-it-commonly-known-as-a.mp4"
-	# out_video = video.replace("水印视频", "去水印视频")
-	# process_video(video, alpha, W, bg, out_video)
-	# return 
+	# cv.imwrite("imgs/shutterstock_alpha.png", (alpha*255).astype(np.uint8))
+	# cv.imwrite("imgs/shutterstock_W.png", (W).astype(np.uint8))
+
+	video = "/database/水印视频/shutterstock/多旋翼无人机/stock-footage-drone-landing-in-hand.mp4"
+	process_video(video, alpha, W, bg)
+	return 
 
 	dirname = "/database/水印视频/shutterstock/"
 	for root, dirs, names in os.walk(dirname):
